@@ -24,3 +24,6 @@ Luego, usa npx http-server para iniciar el servidor desde el directorio de tu pr
 
 
 Elige la opción que mejor se adapte a tus preferencias y requisitos del proyecto. Si no estás seguro, la instalación local en tu proyecto es una opción segura y evita posibles problemas de permisos globales de npm.
+
+———————
+Para compilar uso npx tic
