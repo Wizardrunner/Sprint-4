@@ -75,31 +75,6 @@ document.addEventListener('DOMContentLoaded', () => __awaiter(void 0, void 0, vo
     const jokeContent = document.getElementById('jokeContent');
     const scoreButtons = document.querySelectorAll('.score-button');
     if (getJokeButton && jokeContent && scoreButtons) {
-        const fetchAndDisplayJoke = () => __awaiter(void 0, void 0, void 0, function* () {
-            try {
-                const jokeApiUrl = isFirstJoke ? dadJokeApiUrl : chuckNorrisApiUrl;
-                const joke = yield fetchJoke(jokeApiUrl);
-                if (joke.status === 200 || joke.status === undefined) {
-                    jokeContent.textContent = joke.joke;
-                    // Enable score buttons
-                    scoreButtons.forEach((button) => {
-                        button.removeAttribute('disabled');
-                    });
-                    // Reset previous scores
-                    scoreButtons.forEach((button) => {
-                        button.classList.remove('selected');
-                    });
-                    // Toggle between dad jokes and Chuck Norris jokes
-                    isFirstJoke = !isFirstJoke;
-                }
-                else {
-                    throw new Error(`Failed to fetch joke. Status: ${joke.status}`);
-                }
-            }
-            catch (error) {
-                console.error('Error fetching and displaying joke:', error.message);
-            }
-        });
         const handleScoreButtonClick = (selectedScore) => {
             var _a;
             // Log the selected score to the console
@@ -111,12 +86,12 @@ document.addEventListener('DOMContentLoaded', () => __awaiter(void 0, void 0, vo
         getJokeButton.addEventListener('click', fetchAndDisplayJoke);
         scoreButtons.forEach((button) => {
             button.addEventListener('click', (event) => {
-                const selectedScore = parseInt(event.target.value, 10);
+                const selectedScore = parseInt(event.currentTarget.value, 10);
                 // Mark the selected button
                 scoreButtons.forEach((btn) => {
                     btn.classList.remove('selected');
                 });
-                event.target.classList.add('selected');
+                event.currentTarget.classList.add('selected');
                 // Call the function to handle the score button click
                 handleScoreButtonClick(selectedScore);
             });

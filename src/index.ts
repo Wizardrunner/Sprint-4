@@ -25,57 +25,57 @@ const updateJokeReport = (joke: string, score: number | null) => {
 
 const fetchJoke = async (apiUrl: string): Promise<Joke> => {
   const headers = new Headers({
-    'Accept': 'application/json',
+      'Accept': 'application/json',
   });
 
   try {
-    const response = await fetch(apiUrl, { headers });
+      const response = await fetch(apiUrl, { headers });
 
-    if (response.ok) {
-      const jokeData = await response.json();
-      return {
-        id: jokeData.id,
-        joke: jokeData.joke || jokeData.value || '', // Ensure we have a default value
-        status: jokeData.status,
-      };
-    } else {
-      throw new Error(`Failed to fetch joke. Status: ${response.status}`);
-    }
+      if (response.ok) {
+          const jokeData = await response.json();
+          return {
+              id: jokeData.id,
+              joke: jokeData.joke || jokeData.value || '', // Ensure we have a default value
+              status: jokeData.status,
+          };
+      } else {
+          throw new Error(`Failed to fetch joke. Status: ${response.status}`);
+      }
   } catch (error: any) {
-    console.error('Error fetching joke:', error.message);
-    throw new Error('Failed to fetch joke. Check your network connection.');
+      console.error('Error fetching joke:', error.message);
+      throw new Error('Failed to fetch joke. Check your network connection.');
   }
 };
 
 const fetchAndDisplayJoke = async () => {
   try {
-    const jokeApiUrl = isFirstJoke ? dadJokeApiUrl : chuckNorrisApiUrl;
-    const joke = await fetchJoke(jokeApiUrl);
+      const jokeApiUrl = isFirstJoke ? dadJokeApiUrl : chuckNorrisApiUrl;
+      const joke = await fetchJoke(jokeApiUrl);
 
-    if (joke.status === 200 || joke.status === undefined) {
-      const jokeContent = document.getElementById('jokeContent');
-      if (jokeContent) {
-        jokeContent.textContent = joke.joke;
+      if (joke.status === 200 || joke.status === undefined) {
+          const jokeContent = document.getElementById('jokeContent');
+          if (jokeContent) {
+              jokeContent.textContent = joke.joke;
+          }
+
+          // Enable score buttons
+          const scoreButtons = document.querySelectorAll('.score-button');
+          scoreButtons.forEach((button) => {
+              (button as HTMLButtonElement).removeAttribute('disabled');
+          });
+
+          // Reset previous scores
+          scoreButtons.forEach((button) => {
+              (button as HTMLButtonElement).classList.remove('selected');
+          });
+
+          // Toggle between dad jokes and Chuck Norris jokes
+          isFirstJoke = !isFirstJoke;
+      } else {
+          throw new Error(`Failed to fetch joke. Status: ${joke.status}`);
       }
-
-      // Enable score buttons
-      const scoreButtons = document.querySelectorAll('.score-button');
-      scoreButtons.forEach((button) => {
-        (button as HTMLButtonElement).removeAttribute('disabled');
-      });
-
-      // Reset previous scores
-      scoreButtons.forEach((button) => {
-        (button as HTMLButtonElement).classList.remove('selected');
-      });
-
-      // Toggle between dad jokes and Chuck Norris jokes
-      isFirstJoke = !isFirstJoke;
-    } else {
-      throw new Error(`Failed to fetch joke. Status: ${joke.status}`);
-    }
   } catch (error: any) {
-    console.error('Error fetching and displaying joke:', error.message);
+      console.error('Error fetching and displaying joke:', error.message);
   }
 };
 
@@ -85,62 +85,34 @@ document.addEventListener('DOMContentLoaded', async () => {
   const scoreButtons = document.querySelectorAll('.score-button');
 
   if (getJokeButton && jokeContent && scoreButtons) {
-    const fetchAndDisplayJoke = async () => {
-      try {
-        const jokeApiUrl = isFirstJoke ? dadJokeApiUrl : chuckNorrisApiUrl;
-        const joke = await fetchJoke(jokeApiUrl);
+      const handleScoreButtonClick = (selectedScore: number) => {
+          // Log the selected score to the console
+          console.log('Selected Score:', selectedScore);
 
-        if (joke.status === 200 || joke.status === undefined) {
-          jokeContent.textContent = joke.joke;
+          // Update the joke report
+          updateJokeReport(jokeContent?.textContent ?? '', selectedScore);
+      };
 
-          // Enable score buttons
-          scoreButtons.forEach((button) => {
-            (button as HTMLButtonElement).removeAttribute('disabled');
-          });
+      // Attach event listeners
+      getJokeButton.addEventListener('click', fetchAndDisplayJoke);
 
-          // Reset previous scores
-          scoreButtons.forEach((button) => {
-            (button as HTMLButtonElement).classList.remove('selected');
-          });
-
-          // Toggle between dad jokes and Chuck Norris jokes
-          isFirstJoke = !isFirstJoke;
-        } else {
-          throw new Error(`Failed to fetch joke. Status: ${joke.status}`);
-        }
-      } catch (error: any) {
-        console.error('Error fetching and displaying joke:', error.message);
-      }
-    };
-
-    const handleScoreButtonClick = (selectedScore: number) => {
-      // Log the selected score to the console
-      console.log('Selected Score:', selectedScore);
-
-      // Update the joke report
-      updateJokeReport(jokeContent?.textContent ?? '', selectedScore);
-    };
-
-    // Attach event listeners
-    getJokeButton.addEventListener('click', fetchAndDisplayJoke);
-
-    scoreButtons.forEach((button) => {
-      button.addEventListener('click', (event) => {
-        const selectedScore = parseInt((event.target as HTMLButtonElement).value, 10);
-
-        // Mark the selected button
-        scoreButtons.forEach((btn) => {
-          (btn as HTMLButtonElement).classList.remove('selected');
+      scoreButtons.forEach((button) => {
+        button.addEventListener('click', (event) => {
+            const selectedScore = parseInt((event.currentTarget as HTMLButtonElement).value, 10);
+    
+            // Mark the selected button
+            scoreButtons.forEach((btn) => {
+                (btn as HTMLButtonElement).classList.remove('selected');
+            });
+            (event.currentTarget as HTMLButtonElement).classList.add('selected');
+    
+            // Call the function to handle the score button click
+            handleScoreButtonClick(selectedScore);
         });
-        (event.target as HTMLButtonElement).classList.add('selected');
-
-        // Call the function to handle the score button click
-        handleScoreButtonClick(selectedScore);
-      });
     });
-
-    // Initial fetch and display of joke
-    await fetchAndDisplayJoke();
+    
+      // Initial fetch and display of joke
+      await fetchAndDisplayJoke();
   }
 });
 
@@ -150,22 +122,22 @@ document.addEventListener('DOMContentLoaded', async () => {
   const weatherContainer = document.getElementById('weatherContainer');
 
   const fetchWeather = async () => {
-    try {
-      const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=Barcelona,ES&appid=${apiKey}`);
-      if (response.ok) {
-        const weatherData = await response.json();
-        if (weatherContainer && weatherData.weather && weatherData.weather.length > 0) {
-          const weatherDescription = weatherData.weather[0].description;
-          weatherContainer.textContent = `Current weather in Barcelona: ${weatherDescription}`;
-        } else {
-          throw new Error('No weather information available.');
-        }
-      } else {
-        throw new Error(`Failed to fetch weather. Status: ${response.status}`);
+      try {
+          const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=Barcelona,ES&appid=${apiKey}`);
+          if (response.ok) {
+              const weatherData = await response.json();
+              if (weatherContainer && weatherData.weather && weatherData.weather.length > 0) {
+                  const weatherDescription = weatherData.weather[0].description;
+                  weatherContainer.textContent = `Current weather in Barcelona: ${weatherDescription}`;
+              } else {
+                  throw new Error('No weather information available.');
+              }
+          } else {
+              throw new Error(`Failed to fetch weather. Status: ${response.status}`);
+          }
+      } catch (error: any) {
+          console.error('Error fetching weather:', error.message);
       }
-    } catch (error: any) {
-      console.error('Error fetching weather:', error.message);
-    }
   };
 
   // Call the function to get weather information when the page loads

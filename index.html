@@ -4,20 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dad Joke Generator</title>
-<link rel="stylesheet" href="./styles.css"></head>
+    <link rel="stylesheet" href="./styles.css">
+</head>
 <body>
-    <div id="weatherContainer">Partly cloudy today</div>
+    <div id="weatherContainer"></div>
 
     <div id="jokeContainer">
         <h2>Ready to laugh your ass off? 🤣</h2>
         <div id="jokeContent"></div>
-        <button id="getJokeButton">Get Joke</button>
 
         <div>
-            <button class="score-button" value="1" disabled>Score 1</button>
-            <button class="score-button" value="2" disabled>Score 2</button>
-            <button class="score-button" value="3" disabled>Score 3</button>
+            <button class="score-button" value="1">
+                <img src="./img/sad-2_icon-icons.com_61113.png" alt="Sad" />
+            </button>
+            <button class="score-button" value="2">
+                <img src="./img/surprised-4_icon-icons.com_61100.png" alt="Surprised" />
+            </button>
+            <button class="score-button" value="3">
+                <img src="./img/happy-5_icon-icons.com_61129.png" alt="Happy" />
+            </button>
         </div>
+        
+        <div class="container">
+            <div id="colorUnderlay"></div>
+            <button id="getJokeButton">Next Joke</button>
+        </div>
+                                                    
     </div>
 
     <script type="module" src="./dist/index.js"></script>
