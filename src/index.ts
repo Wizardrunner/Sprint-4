@@ -30,11 +30,12 @@ const fetchJoke = async (): Promise<Joke> => {
 document.addEventListener('DOMContentLoaded', async () => {
   const getJokeButton = document.getElementById('getJokeButton');
   const jokeContainer = document.getElementById('jokeContainer');
+  const jokeContent = document.getElementById('jokeContent');
 
-  if (getJokeButton && jokeContainer) {
+  if (getJokeButton && jokeContainer && jokeContent) {
     try {
       const joke = await fetchJoke();
-      jokeContainer.textContent = joke.joke;
+      jokeContent.textContent = joke.joke;
       console.log(joke.joke);
 
       // Change button text on startup
@@ -48,7 +49,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const joke = await fetchJoke();
 
         // Display the joke on the screen
-        jokeContainer.textContent = joke.joke;
+        jokeContent.textContent = joke.joke;
 
         // Log the joke to the console
         console.log(joke.joke);

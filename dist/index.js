@@ -31,10 +31,11 @@ const fetchJoke = () => __awaiter(void 0, void 0, void 0, function* () {
 document.addEventListener('DOMContentLoaded', () => __awaiter(void 0, void 0, void 0, function* () {
     const getJokeButton = document.getElementById('getJokeButton');
     const jokeContainer = document.getElementById('jokeContainer');
-    if (getJokeButton && jokeContainer) {
+    const jokeContent = document.getElementById('jokeContent');
+    if (getJokeButton && jokeContainer && jokeContent) {
         try {
             const joke = yield fetchJoke();
-            jokeContainer.textContent = joke.joke;
+            jokeContent.textContent = joke.joke;
             console.log(joke.joke);
             // Change button text on startup
             getJokeButton.textContent = 'Next Joke';
@@ -46,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => __awaiter(void 0, void 0, vo
             try {
                 const joke = yield fetchJoke();
                 // Display the joke on the screen
-                jokeContainer.textContent = joke.joke;
+                jokeContent.textContent = joke.joke;
                 // Log the joke to the console
                 console.log(joke.joke);
             }
