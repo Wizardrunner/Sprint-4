@@ -122,22 +122,42 @@ document.addEventListener('DOMContentLoaded', async () => {
   const weatherContainer = document.getElementById('weatherContainer');
 
   const fetchWeather = async () => {
-      try {
-          const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=Barcelona,ES&appid=${apiKey}`);
-          if (response.ok) {
-              const weatherData = await response.json();
-              if (weatherContainer && weatherData.weather && weatherData.weather.length > 0) {
-                  const weatherDescription = weatherData.weather[0].description;
-                  weatherContainer.textContent = `Current weather in Barcelona: ${weatherDescription}`;
-              } else {
-                  throw new Error('No weather information available.');
-              }
-          } else {
-              throw new Error(`Failed to fetch weather. Status: ${response.status}`);
-          }
-      } catch (error: any) {
-          console.error('Error fetching weather:', error.message);
+    try {
+      const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=Barcelona,ES&units=metric&appid=${apiKey}`);
+      if (response.ok) {
+        const weatherData = await response.json();
+        if (weatherContainer && weatherData.weather && weatherData.weather.length > 0) {
+          const weatherIcon = getWeatherIcon(weatherData.weather[0].icon);
+          const weatherDescription = weatherData.weather[0].description;
+          const temperature = Math.round(weatherData.main.temp);
+
+          // Display weather information with icon and temperature
+          weatherContainer.innerHTML = `
+            <div class="weather-info">
+              <div class="weather-icon">${weatherIcon}</div>
+              <div class="weather-text">
+                <p>${weatherDescription}</p>
+                <p>${temperature} °C</p>
+              </div>
+            </div>
+          `;
+        } else {
+          throw new Error('No weather information available.');
+        }
+      } else {
+        throw new Error(`Failed to fetch weather. Status: ${response.status}`);
       }
+    } catch (error: any) {
+      console.error('Error fetching weather:', error.message);
+    }
+  };
+
+  // Function to get custom weather icon based on OpenWeather icon code
+  const getWeatherIcon = (iconCode: string) => {
+    const iconFilename = `${iconCode}.png`;
+    const iconPath = `img/weather/${iconFilename}`;
+
+    return `<img src="${iconPath}" alt="${iconCode}" />`;
   };
 
   // Call the function to get weather information when the page loads
