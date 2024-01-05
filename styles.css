@@ -113,3 +113,31 @@ span.pipe {
     margin: 0 5px 0 5px;
     color: black;
 }
+
+/**********/
+/*Side*SVG*/
+#jokeContainer::before,
+#jokeContainer::after {
+    content: '';
+    position: absolute;
+    width: 200px; /* Adjust the width and height based on your design */
+    height: 200px;
+}
+
+#jokeContainer::before {
+    bottom: -117px;
+    left: -258px;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><path fill="%239071BB" d="M40.9,-67.1C46.7,-59.9,40.6,-37.9,45.5,-22.2C50.3,-6.6,66.1,2.6,72.5,15.8C79,29,76.1,46.2,66.9,59.2C57.6,72.2,42,80.9,26.5,81.3C11.1,81.7,-4.1,73.7,-18.4,67.3C-32.7,60.9,-46,56.2,-53.1,46.8C-60.2,37.3,-61,23.1,-65.4,8C-69.7,-7.1,-77.5,-23,-76.2,-38.5C-74.9,-54,-64.4,-69,-50.2,-72.3C-36,-75.6,-18,-67.2,-0.2,-66.9C17.6,-66.5,35.1,-74.3,40.9,-67.1Z" transform="translate(100 100)" /></svg>');
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+#jokeContainer::after {
+    top: -65px;
+    right: -265px;
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><path fill="%239071BB" d="M32.1,-46.8C45.4,-41.4,62.7,-39,67.2,-30.3C71.7,-21.7,63.4,-6.9,57.1,5.3C50.9,17.5,46.6,27.1,41.7,40.3C36.8,53.4,31.1,70.1,21.5,72.8C11.8,75.4,-1.8,64.1,-11.8,54.6C-21.9,45.1,-28.3,37.6,-38.8,30.7C-49.4,23.8,-64.1,17.6,-70.2,7.1C-76.4,-3.4,-74,-18,-66.7,-29C-59.4,-39.9,-47.2,-47.2,-35.2,-53.3C-23.3,-59.4,-11.6,-64.4,-1.1,-62.6C9.4,-60.9,18.7,-52.3,32.1,-46.8Z" transform="translate(100 100)" /></svg>');
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+/*End*Side*SVG*/
+/**************/
