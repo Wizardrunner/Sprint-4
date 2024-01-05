@@ -96,3 +96,20 @@ body {
     color:white;
     font-family:Arial, Helvetica, sans-serif;
 }
+
+span.temperature {
+    font-weight: bold;
+    font-family: sans-serif;
+    color: black;
+    font-size: x-large;
+    vertical-align: 14px;
+}
+
+span.pipe {
+    font-family: system-ui;
+    font-size: xxx-large;
+    font-weight: 200;
+    vertical-align: 8px;
+    margin: 0 5px 0 5px;
+    color: black;
+}

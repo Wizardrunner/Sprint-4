@@ -111,15 +111,12 @@ document.addEventListener('DOMContentLoaded', () => __awaiter(void 0, void 0, vo
                 const weatherData = yield response.json();
                 if (weatherContainer && weatherData.weather && weatherData.weather.length > 0) {
                     const weatherIcon = getWeatherIcon(weatherData.weather[0].icon);
-                    const weatherDescription = weatherData.weather[0].description;
                     const temperature = Math.round(weatherData.main.temp);
                     // Display weather information with icon and temperature
                     weatherContainer.innerHTML = `
             <div class="weather-info">
-              <div class="weather-icon">${weatherIcon}</div>
               <div class="weather-text">
-                <p>${weatherDescription}</p>
-                <p>${temperature} °C</p>
+                ${weatherIcon} <span class="pipe">|</span> <span class="temperature">${temperature} °C</span>
               </div>
             </div>
           `;
