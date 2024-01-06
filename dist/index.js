@@ -13,11 +13,11 @@ const chuckNorrisApiUrl = 'https://api.chucknorris.io/jokes/random';
 const reportAcudits = [];
 let isFirstJoke = true;
 const backgroundImages = [
-    './img/blob.svg',
     './img/blob1.svg',
     './img/blob2.svg',
     './img/blob3.svg',
-    './img/blob4.svg'
+    './img/blob4.svg',
+    './img/blob5.svg'
 ];
 let currentBackgroundIndex = 0;
 const updateJokeReport = (joke, score) => {
@@ -49,6 +49,7 @@ const fetchJoke = (apiUrl) => __awaiter(void 0, void 0, void 0, function* () {
         throw new Error('Failed to fetch joke. Check your network connection.');
     }
 });
+let isFirstLoad = true;
 const fetchAndDisplayJoke = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const jokeApiUrl = isFirstJoke ? dadJokeApiUrl : chuckNorrisApiUrl;
@@ -77,11 +78,35 @@ const fetchAndDisplayJoke = () => __awaiter(void 0, void 0, void 0, function* ()
         else {
             throw new Error(`Failed to fetch joke. Status: ${joke.status}`);
         }
+        // Check if it's the first load
+        if (isFirstLoad) {
+            isFirstLoad = false;
+        }
+        else {
+            // Update side shapes background images with different blobs
+            updateSideShapesBackground();
+        }
     }
     catch (error) {
         console.error('Error fetching and displaying joke:', error.message);
     }
 });
+// Function to update side shapes background images
+const updateSideShapesBackground = () => {
+    var _a, _b;
+    const blobIndexBefore = Math.floor(Math.random() * 6) + 1; // Random index from 1 to 6
+    const blobIndexAfter = Math.floor(Math.random() * 6) + 1; // Random index from 1 to 6
+    const blobPathBefore = `url('./img/before/blob-before${blobIndexBefore}.svg')`;
+    const blobPathAfter = `url('./img/after/blob-after${blobIndexAfter}.svg')`;
+    const beforeShape = (_a = document.getElementById('jokeContainer')) === null || _a === void 0 ? void 0 : _a.style;
+    if (beforeShape) {
+        beforeShape.setProperty('--before-background', blobPathBefore);
+    }
+    const afterShape = (_b = document.getElementById('jokeContainer')) === null || _b === void 0 ? void 0 : _b.style;
+    if (afterShape) {
+        afterShape.setProperty('--after-background', blobPathAfter);
+    }
+};
 document.addEventListener('DOMContentLoaded', () => __awaiter(void 0, void 0, void 0, function* () {
     const getJokeButton = document.getElementById('getJokeButton');
     const jokeContent = document.getElementById('jokeContent');

@@ -17,11 +17,11 @@ const reportAcudits: JokeReport[] = [];
 let isFirstJoke = true;
 
 const backgroundImages: string[] = [
-  './img/blob.svg',
   './img/blob1.svg',
   './img/blob2.svg',
   './img/blob3.svg',
-  './img/blob4.svg'
+  './img/blob4.svg',
+  './img/blob5.svg'
 ];
 
 let currentBackgroundIndex = 0;
@@ -57,6 +57,8 @@ const fetchJoke = async (apiUrl: string): Promise<Joke> => {
   }
 };
 
+let isFirstLoad = true;
+
 const fetchAndDisplayJoke = async () => {
   try {
     const jokeApiUrl = isFirstJoke ? dadJokeApiUrl : chuckNorrisApiUrl;
@@ -90,8 +92,35 @@ const fetchAndDisplayJoke = async () => {
     } else {
       throw new Error(`Failed to fetch joke. Status: ${joke.status}`);
     }
+    // Check if it's the first load
+    if (isFirstLoad) {
+      isFirstLoad = false;
+    } else {
+      // Update side shapes background images with different blobs
+      updateSideShapesBackground();
+    }
+
   } catch (error: any) {
     console.error('Error fetching and displaying joke:', error.message);
+  }
+};
+
+// Function to update side shapes background images
+const updateSideShapesBackground = () => {
+  const blobIndexBefore = Math.floor(Math.random() * 6) + 1; // Random index from 1 to 6
+  const blobIndexAfter = Math.floor(Math.random() * 6) + 1; // Random index from 1 to 6
+
+  const blobPathBefore = `url('./img/before/blob-before${blobIndexBefore}.svg')`;
+  const blobPathAfter = `url('./img/after/blob-after${blobIndexAfter}.svg')`;
+
+  const beforeShape = document.getElementById('jokeContainer')?.style;
+  if (beforeShape) {
+    beforeShape.setProperty('--before-background', blobPathBefore);
+  }
+
+  const afterShape = document.getElementById('jokeContainer')?.style;
+  if (afterShape) {
+    afterShape.setProperty('--after-background', blobPathAfter);
   }
 };
 
