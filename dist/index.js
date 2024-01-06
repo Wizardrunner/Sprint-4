@@ -12,6 +12,14 @@ const dadJokeApiUrl = 'https://icanhazdadjoke.com/';
 const chuckNorrisApiUrl = 'https://api.chucknorris.io/jokes/random';
 const reportAcudits = [];
 let isFirstJoke = true;
+const backgroundImages = [
+    './img/blob.svg',
+    './img/blob1.svg',
+    './img/blob2.svg',
+    './img/blob3.svg',
+    './img/blob4.svg'
+];
+let currentBackgroundIndex = 0;
 const updateJokeReport = (joke, score) => {
     const date = new Date().toISOString();
     const jokeReport = { joke, score, date };
@@ -59,6 +67,10 @@ const fetchAndDisplayJoke = () => __awaiter(void 0, void 0, void 0, function* ()
             scoreButtons.forEach((button) => {
                 button.classList.remove('selected');
             });
+            // Change the background image
+            document.body.style.backgroundImage = `url('${backgroundImages[currentBackgroundIndex]}')`;
+            // Increment the background index or reset it
+            currentBackgroundIndex = (currentBackgroundIndex + 1) % backgroundImages.length;
             // Toggle between dad jokes and Chuck Norris jokes
             isFirstJoke = !isFirstJoke;
         }
